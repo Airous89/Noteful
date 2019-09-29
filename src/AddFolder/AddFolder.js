@@ -46,7 +46,7 @@ export default class AddFolder extends Component {
     };
     console.log(options);
 
-    fetch('http://localhost:9090/folders', options)
+    fetch('https://cors-anywhere.herokuapp.com/http://localhost:5000/folders', "Access-Control-Allow-Origin: options ")
       .then(res => {
         if (!res.ok) {
           throw new Error('Something went wrong');
