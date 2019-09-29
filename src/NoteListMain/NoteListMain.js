@@ -1,42 +1,30 @@
-import React, {Component} from 'react'
-import { Link } from 'react-router-dom'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import Note from '../Note/Note'
-import CircleButton from '../CircleButton/CircleButton'
-import './NoteListMain.css'
-import NotesContext from '../notes-context';
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Note from '../Note/Note';
+import CircleButton from '../CircleButton/CircleButton';
+import './NoteListMain.css';
+import NoteContext from '../notes-context';
+import { getNotesForFolder } from '../notes-helpers';
+import PropTypes from 'prop-types';
 
-class NoteListMain extends Component {
-
-  static contextType = NotesContext
-  render(){
-    const {notes} = this.context;
-    const folderId = this.props.match.params.folderId
-
-    const notesInFolder = notes.filter((note) => {
-      if(folderId) {
-     return  note.folderId === folderId
-    } else{
-      return note
-    }}
-  );
-
-
+export default class NoteListMain extends Component {
+  static contextType = NoteContext;
+  render() {
+    const { folderId } = this.props.match.params;
     return (
-      !this.props.err ?
       <section className='NoteListMain'>
         <ul>
-          {notesInFolder.map(note =>
+          {getNotesForFolder(this.context.notes, folderId).map(note => (
             <li key={note.id}>
               <Note
+                handleDelete={this.context.handleDelete}
                 id={note.id}
                 name={note.name}
                 modified={note.modified}
-                history={this.props.history}
-                match={this.props.match}
               />
             </li>
-          )}
+          ))}
         </ul>
         <div className='NoteListMain__button-container'>
           <CircleButton
@@ -51,12 +39,13 @@ class NoteListMain extends Component {
           </CircleButton>
         </div>
       </section>
-
-      :
-      
-      <h3>{this.props.error}</h3>
-    )
+    );
   }
 }
 
-export default NoteListMain;
+NoteListMain.defaultProps = {
+  notes: []
+};
+NoteListMain.propTypes = {
+  folderId: PropTypes.string
+};

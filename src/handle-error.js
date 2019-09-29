@@ -1,22 +1,21 @@
-import React from 'react';
+import React, {Component} from 'react';
 
-export default class HandleError extends React.Component  {
-  state = {hasError: null};
-  static getDerivedStateFromError(error) {
-
-    console.error(error);
-
-    this.setState({hasError: error})
+class HandleError extends Component {
+  constructor(props){
+    super(props);
+    this.state = {hasError: false};
   }
-  render() {
-    if (this.state.hasError) {
-        return (
-        <main className="error-page">
-          <h1>Something seems to have gone wrong</h1>
-          <p>Try refresing the page</p>
-       </main>
-      )
+
+  static getDerivedStateFromError(){
+    return {hasError: true};
+  }
+
+  render(){
+    if(this.state.hasError){
+      return <h2>Sorry. There was an problem</h2>
     }
-    return this.props.children
+    return this.props.children;
   }
 }
+
+export default HandleError;

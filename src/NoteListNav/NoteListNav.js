@@ -1,23 +1,21 @@
-import React, {Component} from 'react'
-import { NavLink, Link } from 'react-router-dom'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import CircleButton from '../CircleButton/CircleButton'
-import { countNotesForFolder } from '../notes-helpers'
-import NotesContext from '../notes-context';
-import './NoteListNav.css'
+import React from 'react';
+import { NavLink, Link } from 'react-router-dom';
+import NoteContext from '../notes-context';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import CircleButton from '../CircleButton/CircleButton';
+import { countNotesForFolder } from '../notes-helpers';
+import './NoteListNav.css';
 
-  class NoteListNav extends Component {
-  
-    static contextType = NotesContext
-  
-    render(){
-      const {notes, folders} = this.context;
-      return (
+export default function NoteListNav() {
+  return (
+    <NoteContext.Consumer>
+      {({ notes, folders }) => (
         <div className='NoteListNav'>
           <ul className='NoteListNav__list'>
-            {folders.map(folder =>
-              <li key={folder.id}>
+            {folders.map(folder => (
+              <li key={folder.name}>
                 <NavLink
+                  key={folder.id}
                   className='NoteListNav__folder-link'
                   to={`/folder/${folder.id}`}
                 >
@@ -27,7 +25,7 @@ import './NoteListNav.css'
                   {folder.name}
                 </NavLink>
               </li>
-            )}
+            ))}
           </ul>
           <div className='NoteListNav__button-wrapper'>
             <CircleButton
@@ -42,8 +40,13 @@ import './NoteListNav.css'
             </CircleButton>
           </div>
         </div>
-      )
-    }
-  }
+      )}
+    </NoteContext.Consumer>
+  );
+}
+
+NoteListNav.defaultProps = {
+  folders: []
+};
+
   
-  export default NoteListNav

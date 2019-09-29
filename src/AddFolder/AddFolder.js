@@ -1,86 +1,106 @@
 import React, { Component } from 'react';
-import ValiationError from './ValidError';
-import NotesContext from  '../notes-context';
+import NotefulForm from '../NotefulForm/NotefulForm';
+import './AddFolder.css';
+import NoteContext from '../notes-context';
 
 export default class AddFolder extends Component {
-    constructor(props) {
-      super(props)
-      this.state = {   
-        name: '',
-        folderValid: false,
-        validMessage: ''
-      }
-    }
-    
-    static contextType = NotesContext;
-  
-    updateFolder(name) {
-      this.setState( {name: name}, () => {this.validateFolder(name)} )
-    }
-  
-    validateFolder(inputValue) {
-      let errorMsg = this.state.validMessage;
-      let hasError = false;
-  
-      inputValue = inputValue.trim();
-      if (inputValue.length === 0) {
-        errorMsg = 'Folder Name is required';
-        hasError = true;
-  
-      } else if (inputValue.length < 3) {
-        errorMsg = 'Folder Name must be at least 3 characters';
-        hasError = true;
-  
-      } else {
-        errorMsg = '';
-        hasError = false;
-      }
-  
+  constructor() {
+    super();
+    this.state = {
+      error: null,
+      name: '',
+      nameValid: false,
+      validationMessage: ''
+    };
+  }
+  static contextType = NoteContext;
+
+  isNameValid = event => {
+    event.preventDefault();
+    if (!this.state.name) {
       this.setState({
-        validMessage: errorMsg,
-        folderValid: !hasError
-      })
-  
-    }
-  
-    addFolderRequest(name, addFolder) {
-      fetch(`http://localhost:9090/folders`, {
-        method: 'POST',
-        headers: {
-          'content-type': 'application/json'
+        validationMessage: 'Folder name can not be blank.',
+        nameValid: false
+      });
+    } else {
+      this.setState(
+        {
+          validationMessage: '',
+          nameValid: true
         },
-        body: JSON.stringify({name: name})
+        this.handleAddFolder()
+      );
+    }
+  };
+
+  handleAddFolder = () => {
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        // id: cuid(),
+        name: this.state.name
       })
+    };
+    console.log(options);
+
+    fetch('http://localhost:9090/folders', options)
       .then(res => {
         if (!res.ok) {
-          throw new Error('Unable to add folder to database')
+          throw new Error('Something went wrong');
         }
-        return res.json();
+        return res;
       })
-      .then(res => addFolder(res))
-      .catch(err => console.log(name, err))
-    }
-  
-    render() {
-      console.log(this.props)
-  
-      const { addFolder } = this.context
-  
-      this.handleSubmit = (event) => {
-        event.preventDefault();
-        console.log(addFolder)
-        this.addFolderRequest(this.state.name, addFolder);
-      }
-  
-      return (
-        <form onSubmit={ (e) => this.handleSubmit(e) }>
-          <label>Add Folder: 
-            <input onChange={ (e) => this.updateFolder(e.target.value) } type="text" name="addFolder" id="addFolder"></input>
-          </label>
-          <ValiationError hasError={!this.state.folderValid} message={this.state.validMessage}/>
-          <button type="submit" disabled={!this.state.folderValid}>Submit</button>
-        </form>
-      )
-    }
-  
+      .then(res => res.json())
+      .then(data => {
+        this.context.handleAddFolder(data);
+      })
+      .catch(err => {
+        this.setState({
+          error: err.message
+        });
+      });
+  };
+
+  nameChange = letter => {
+    this.setState({ name: letter });
+  };
+
+  render() {
+    return (
+      <section className='AddFolder'>
+        <h2>Create a folder</h2>
+        <NotefulForm
+          onSubmit={event => {
+            this.isNameValid(event);
+          }}
+        >
+          <div className='field'>
+            <label htmlFor='folder-name-input'>Name</label>
+            <input
+              type='text'
+              id='folder-name-input'
+              name='folder'
+              onChange={event => this.nameChange(event.target.value)}
+            />
+            {!this.state.nameValid && (
+              <div>
+                <p>{this.state.validationMessage}</p>
+              </div>
+            )}
+          </div>
+          <div className='buttons'>
+            <button type='submit'>Add folder</button>
+          </div>
+        </NotefulForm>
+        {this.state.error && (
+          <div>
+            <p>{this.state.error}</p>
+          </div>
+        )}
+      </section>
+    );
   }
+}
