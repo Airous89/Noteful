@@ -62,7 +62,7 @@ export default class AddNote extends Component {
       })
     };
 
-    fetch(`${Config.API_ENDPOINT}/api/notes`, options)
+    fetch(`${Config.API_ENDPOINT}/notes`, options)
       .then(res => {
         if (!res.ok) {
           throw new Error('Something went wrong');

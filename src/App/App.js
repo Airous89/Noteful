@@ -19,8 +19,8 @@ class App extends Component {
     folders: [],
     err: null
   };
-  FolderUrl = `${Config.API_ENDPOINT}/api/folder`;
-  NoteUrl = `${Config.API_ENDPOINT}/api/notes`;
+  FolderUrl = `${Config.API_ENDPOINT}/folder`;
+  NoteUrl = `${Config.API_ENDPOINT}/notes`;
 
   componentDidMount() {
     fetch(this.FolderUrl)
