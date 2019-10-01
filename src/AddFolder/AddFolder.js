@@ -47,7 +47,7 @@ export default class AddFolder extends Component {
     };
     console.log(options);
 
-    fetch(`${Config.API_ENDPOINT}/folder`, options)
+    fetch(`${Config.API_ENDPOINT}/folders`, options)
       .then(res => {
         if (!res.ok) {
           throw new Error('Something went wrong');
