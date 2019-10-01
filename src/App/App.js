@@ -19,7 +19,7 @@ class App extends Component {
     folders: [],
     err: null
   };
-  FolderUrl = `${Config.API_ENDPOINT}/folder`;
+  FolderUrl = `${Config.API_ENDPOINT}/folders`;
   NoteUrl = `${Config.API_ENDPOINT}/notes`;
 
   componentDidMount() {
