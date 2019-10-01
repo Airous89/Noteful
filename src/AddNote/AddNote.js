@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import NotefulForm from '../NotefulForm/NotefulForm';
 import NoteContext from '../notes-context';
 import './AddNote.css';
+import Config from '../config'
 
 export default class AddNote extends Component {
   constructor() {
@@ -61,7 +62,7 @@ export default class AddNote extends Component {
       })
     };
 
-    fetch('http://localhost:5000/notes', options)
+    fetch(`${Config.API_ENDPOINT}/api/notes`, options)
       .then(res => {
         if (!res.ok) {
           throw new Error('Something went wrong');
