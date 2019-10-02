@@ -15,7 +15,7 @@ export default class NoteListMain extends Component {
     return (
       <section className='NoteListMain'>
         <ul>
-          {getNotesForFolder(this.context.notes, folderId).map(note => (
+          {getNotesForFolder(this.context.notes, folderId).map( note => (
             <li key={note.id}>
               <Note
                 handleDelete={this.context.handleDelete}

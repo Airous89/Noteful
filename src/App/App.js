@@ -81,7 +81,7 @@ class App extends Component {
       .then(data => {
         this.setState(
           {
-            notes: data,
+            notes: newNotes,
             error: null
           },
           () => this.props.history.replace('/')
@@ -150,7 +150,7 @@ class App extends Component {
           path='/note/:noteId'
           render={routeProps => {
             console.log(routeProps)
-            return <NotePageMain {...routeProps} />;
+            return <NotePageMain props = {routeProps} />;
           }}
         />
         <Route path='/add-folder' component={AddFolder} />
