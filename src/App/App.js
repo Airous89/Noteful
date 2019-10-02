@@ -141,6 +141,7 @@ class App extends Component {
             key={path}
             path={path}
             render={routeProps => {
+              console.log(routeProps)
               return <NoteListMain {...routeProps} />;
             }}
           />
@@ -148,6 +149,7 @@ class App extends Component {
         <Route
           path='/note/:noteId'
           render={routeProps => {
+            console.log(routeProps)
             return <NotePageMain {...routeProps} />;
           }}
         />
