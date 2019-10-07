@@ -148,9 +148,8 @@ class App extends Component {
         ))}
         <Route
           path='/note/:noteId'
-          render={routeProps => {
-            console.log(routeProps)
-            return <NotePageMain props = {routeProps} />;
+          component= {NotePageMain => {
+            return <NotePageMain/>;
           }}
         />
         <Route path='/add-folder' component={AddFolder} />
