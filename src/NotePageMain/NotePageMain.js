@@ -1,4 +1,5 @@
-import React, {Component, Route}from 'react'
+import React, {Component}from 'react'
+import {Route} from 'react-router'
 import Note from '../Note/Note'
 import { findNote } from '../notes-helpers';
 import './NotePageMain.css'
