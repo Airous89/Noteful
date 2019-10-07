@@ -26,12 +26,12 @@ export default class AddNote extends Component {
     event.preventDefault();
     if (!this.state.name) {
       this.setState({
-        validationMessage: 'Note name can not be blank.',
+        validationMessage: ' You must choose a folder. ',
         nameValid: false
       });
     } else if (!this.state.id) {
       this.setState({
-        validationMessage: 'You must choose a valid folder.',
+        validationMessage: 'A Note can not be blank.',
         idValid: false
       });
     } else {

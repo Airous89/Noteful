@@ -1,4 +1,4 @@
-import React, {Component}from 'react'
+import React, {Component, Route}from 'react'
 import Note from '../Note/Note'
 import { findNote } from '../notes-helpers';
 import './NotePageMain.css'
@@ -22,6 +22,9 @@ export default class NotePageMain extends Component {
           {note.content.split(/\n \r|\n/).map((para, i) =>
             <p key={i}>{para}</p>
           )}
+          <Route path={`${this.props.match.url}view/:noteId`} render={(props) => (
+            <single {...this.props} {...props} />
+          )} />
         </div>
       </section>
     )

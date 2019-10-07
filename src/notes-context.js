@@ -1,11 +1,12 @@
 import React from 'react'
 
-const NotesContext = React.createContext({
+const NoteContext = React.createContext({
   notes: [],
   folders: [],
-  deleteNote: () => {},
-  addFolder: () => {},
-  addNote: () => {}
-})
+  err: null,
+  HandleDelete: () => {},
+  HandleAddFolder: () => {},
+  HandleAddNote: () => {}
+});
 
-export default NotesContext;
+export default NoteContext;
