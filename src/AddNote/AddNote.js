@@ -24,7 +24,7 @@ export default class AddNote extends Component {
 
   isNameValid = event => {
     event.preventDefault();
-    if (!this.state.name) {
+    if (!this.state.name && this.state.id) {
       this.setState({
         validationMessage: ' You must choose a folder. ',
         nameValid: false
