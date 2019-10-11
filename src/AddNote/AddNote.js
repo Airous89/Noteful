@@ -32,7 +32,7 @@ export default class AddNote extends Component {
         validationMessage1: ' A Note can not be blank ',
         nameValid: false
       });
-    if (!this.state.id){
+    } if (!this.state.id){
       this.setState({
         validationMessage2: 'Pick a folder',
         nameValid: false
@@ -45,7 +45,7 @@ export default class AddNote extends Component {
         nameValid: false
       })
     }
-    } else {
+     else {
       this.setState(
         {
           validationMessage: '',
