@@ -39,22 +39,10 @@ export default class AddNote extends Component {
 
       })
     }
-    if(!!this.state.name && !this.state.id ){
-      this.setState({
-        validationMessage3: 'Note and Folder need a name and a location',
-        nameValid: false
-      })
-    }
-     else {
-      this.setState(
-        {
-          validationMessage: '',
-          nameValid: true
-        },
-        () => {
-          this.handleAddNote();
-        }
-      );
+    if (!this.state.name ||!this.state.id){
+      return;
+    } else {
+      this.handleAddNote();
     }
   };
 
