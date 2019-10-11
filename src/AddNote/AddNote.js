@@ -117,7 +117,7 @@ export default class AddNote extends Component {
           <div className='field'>
             <label htmlFor='note-content-input'>Content</label>
             <textarea
-              id='note-content-input'
+              id='note-content-input' required
               name='content'
               onChange={event => {
                 this.contentChange(event.target.value);
