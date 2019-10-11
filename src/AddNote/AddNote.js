@@ -14,7 +14,10 @@ export default class AddNote extends Component {
       id: '',
       nameValid: false,
       idValid: false,
-      validationMessage: ''
+      validationMessage: '',
+      validationMessage1: '',
+      validationMessage2: '',
+      validationMessage3: ''
     };
   }
   static contextType = NoteContext;
@@ -24,16 +27,24 @@ export default class AddNote extends Component {
 
   isNameValid = event => {
     event.preventDefault();
-    if (!this.state.name && this.state.id) {
+    if (!this.state.name) {
       this.setState({
-        validationMessage: ' You must choose a folder. ',
+        validationMessage1: ' A Note can not be blank ',
         nameValid: false
       });
-    } else if (!this.state.id) {
+    if (!this.state.id){
       this.setState({
-        validationMessage: 'A Note can not be blank.',
-        idValid: false
-      });
+        validationMessage2: 'Pick a folder',
+        nameValid: false
+
+      })
+    }
+    if(!!this.state.name && !this.state.id ){
+      this.setState({
+        validationMessage3: 'Note and Folder need a name and a location',
+        nameValid: false
+      })
+    }
     } else {
       this.setState(
         {
@@ -112,7 +123,7 @@ export default class AddNote extends Component {
           </div>
           {!this.state.nameValid && (
             <div>
-              <p>{this.state.validationMessage}</p>
+              <p>{this.state.validationMessage1}</p>
             </div>
           )}
           <div className='field'>
@@ -134,7 +145,7 @@ export default class AddNote extends Component {
                 this.idChange(event.target.value);
               }}
             >
-              <option value={null}>...</option>
+              <option value>...</option>
               {this.context.folders.map(folder => (
                 <option key={folder.name} name='folder' value={folder.id}>
                   {folder.name}
@@ -143,7 +154,7 @@ export default class AddNote extends Component {
             </select>
             {!this.state.nameValid && (
               <div>
-                <p>{this.state.validationMessage}</p>
+                <p>{this.state.validationMessage2}</p>
               </div>
             )}
           </div>
